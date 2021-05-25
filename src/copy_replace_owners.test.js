@@ -1,6 +1,7 @@
 import * as gFunc from '../utils/selectorsHelpers'
 import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
+import { generalInterface } from '../utils/selectors/generalInterface'
 import { initWithDefaultSafe } from '../utils/testSetup'
 
 let browser
@@ -23,8 +24,6 @@ describe.skip('Adding and removing owners', () => {
   const errorMsg = sels.errorMsg
   const safe_hub = sels.xpSelectors.safe_hub
 
-  const general = sels.testIdSelectors.general
-
   let owner_replaced_address
   let owner_for_replacement_address
   let owner_for_replacement_name
@@ -35,7 +34,7 @@ describe.skip('Adding and removing owners', () => {
     flag = true
     owner_for_replacement_name = 'Cory Barlog'
     try {
-      await gFunc.isTextPresent(general.sidebar, 'SETTINGS', gnosisPage)
+      await gFunc.isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
       await gFunc.clickByText('span', 'SETTINGS', gnosisPage)
       await gFunc.isTextPresent('body', 'Safe Version', gnosisPage)
       await gFunc.clickByText('p', 'Owners', gnosisPage)
@@ -109,7 +108,7 @@ describe.skip('Adding and removing owners', () => {
     try {
       await MMpage.waitFor(5000)
       await gnosisPage.bringToFront()
-      await gFunc.clickSomething(safe_hub.awaiting_confirmations, gnosisPage)
+      await gFunc.clickSomething(safe_hub.needs_confirmations, gnosisPage)
       await gFunc.assertElementPresent(safe_hub.confirmed_counter(1), gnosisPage)
       await metamask.switchAccount(1) // currently in account4, changing to account 1
       await gnosisPage.waitFor(2000)
